@@ -1,3 +1,16 @@
 # Ignore environment files
 .env
 .env.*
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore virtual environment
+.venv/
+venv/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore node modules (if frontend uses JS)
+node_modules/
