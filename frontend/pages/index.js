@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import UploadForm from "../components/UploadForm";
 import ReportView from "../components/ReportView";
-import CustomControls from "../components/CustomControls";
 
 export default function Home(){
   const [uploaded, setUploaded] = useState(null);
@@ -163,8 +162,6 @@ export default function Home(){
               vendorId={uploaded?.vendor_id}
             />
           </div>
-
-          <CustomControls vendorId={uploaded?.vendor_id} />
         </div>
       </div>
     </div>

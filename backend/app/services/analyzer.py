@@ -3,7 +3,6 @@ from datetime import datetime
 from ..models.schemas import AnalysisReport, ControlResult, EvidenceItem, DocumentMetadata
 from .llm import classify_control_with_gemini
 from .control_framework import CONTROLS
-from ..api.controls import custom_controls
 
 
 def analyze_vendor_controls(
@@ -34,9 +33,8 @@ def analyze_vendor_controls(
     total_weighted = 0.0
     accumulated = 0.0
 
-    # Get all controls (standard + custom)
-    custom_controls_list = _get_custom_controls()
-    all_controls = CONTROLS + custom_controls_list
+    # Get all controls
+    all_controls = CONTROLS
     
     # Filter by framework if specified
     if framework_filter:
