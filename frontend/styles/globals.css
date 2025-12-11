@@ -1,0 +1,172 @@
+/* Global Styles */
+
+:root {
+  --bg: #0f1724;
+  --card: #0b1220;
+  --muted: #9aa4b2;
+  --accent: #60a5fa;
+  --glass: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.06);
+}
+
+html, body, #__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  background: linear-gradient(180deg, #071029 0%, #071b2a 100%);
+  color: #e6eef6;
+}
+
+/* Main container */
+.container {
+  max-width: 980px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Layout Grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 20px;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+}
+
+/* Text styles */
+.small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Buttons */
+.button {
+  background: linear-gradient(90deg, var(--accent), #7c3aed);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* File list */
+.file-list {
+  margin-top: 12px;
+}
+
+.file-item {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--glass);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #dbeafe;
+}
+
+/* Report styling */
+
+.control-row {
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 10px;
+}
+
+.tag {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.tag.covered {
+  background: rgba(99, 246, 175, 0.1);
+  color: #6ee7b7;
+}
+
+.tag.partial {
+  background: rgba(255, 209, 102, 0.1);
+  color: #ffd166;
+}
+
+.tag.missing {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff7b7b;
+}
+
+.snippet {
+  color: #cfe9ff;
+  font-size: 13px;
+  margin-top: 6px;
+  white-space: pre-wrap;
+}
+
+.controls-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Risk badge */
+.risk-badge {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+  color: white;
+}
+
+/* Helpful smaller links */
+.small-link {
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 13px;
+}

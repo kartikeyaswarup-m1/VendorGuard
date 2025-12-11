@@ -1,0 +1,21 @@
+# env & secrets
+.env
+.env.*
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+
+# node
+node_modules/
+
+# docker
+docker-compose.override.yml
