@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+PyMuPDF
+qdrant-client
+python-dotenv
+tqdm
+requests
+google-genai
