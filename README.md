@@ -55,25 +55,33 @@ The project follows a Retrieval-Augmented Generation (RAG) architecture using em
 ## Environment Configuration
 
 UPLOAD_DIR=/tmp/vendorguard/uploads
+
 QDRANT_URL=http://localhost:6333
+
 QDRANT_API_KEY=
+
 EMBEDDING_PROVIDER=gemini
+
 LLM_PROVIDER=gemini
+
 GEMINI_EMBEDDING_MODEL=gemini-embedding-001
+
 GEMINI_LLM_MODEL=gemini-2.5-flash
+
 EMBEDDING_DIM=768
+
 ALLOWED_ORIGINS=http://localhost:3000
 
 ## Running the Project Locally
 
-1. Start Qdrant
+## Start Qdrant
 
 docker run -d \
   -p 6333:6333 \
   -v qdrant_storage:/qdrant/storage \
   qdrant/qdrant:latest
 
-2. Start the Backend
+## Start the Backend
 
 cd backend
 pip install -r requirements.txt
@@ -82,7 +90,7 @@ uvicorn main:app --reload
 Backend will run on:
 http://localhost:8000
 
-3. Start the Frontend
+## Start the Frontend
 
 cd frontend
 npm install
@@ -125,3 +133,9 @@ VendorGuard is intended for:
 - Security compliance reviews
 - Demonstrating RAG-based document analysis systems
 - Academic projects and technical portfolios
+
+## Authors
+
+Kartikeya Sharma  
+Initial design, architecture, and implementation of VendorGuard.
+
