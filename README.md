@@ -1,155 +1,164 @@
-VendorGuard — AI-Powered Vendor Security Compliance Analyzer
+VendorGuard
 
-VendorGuard is an end-to-end system for analyzing vendor security documents using RAG (Retrieval-Augmented Generation), vector search, and LLM-based classification.
-It ingests multiple document types (Contracts, SLAs, SOC2, ISO27001, GDPR policies), extracts evidence, maps them to security frameworks, and generates detailed compliance and risk reports.
+Overview
 
-Key Features
+VendorGuard is a vendor security and compliance analysis system designed to assess third-party risk using security, legal, and compliance documents. The system ingests vendor-provided PDFs, extracts and semantically analyzes their content, and produces structured compliance reports and risk scores aligned with common security frameworks.
 
-1. Multi-Document Support
+The project follows a Retrieval-Augmented Generation (RAG) architecture using embeddings and a vector database to ensure accurate, evidence-backed analysis.
 
-Analyze multiple documents per vendor, including:
-	•	Contracts / MSAs
-	•	SLAs
-	•	SOC2 reports
-	•	ISO 27001 reports
-	•	Privacy policies (GDPR/CCPA)
-Each document is processed, chunked, embedded, and linked to a single vendor profile.
+What the System Does
+	•	Accepts vendor security and compliance documents (PDF format)
+	•	Extracts and chunks document text
+	•	Generates semantic embeddings
+	•	Stores and searches embeddings using a vector database
+	•	Evaluates documents against predefined security controls
+	•	Produces risk scores and compliance reports
+	•	Displays results through a modern web interface
 
-2. Automatic Document Classification
+Supported Document Types
+	•	Contracts and Master Service Agreements
+	•	Service Level Agreements (SLAs)
+	•	SOC 2 reports
+	•	ISO 27001 documentation
+	•	GDPR and privacy policies
+	•	Internal security and IT policies
 
-VendorGuard automatically predicts the type of each uploaded document using semantic cues:
-	•	“Service Agreement” → Contract
-	•	“Annex A” → ISO 27001
-	•	“SOC2 Type II Audit” → SOC2
-	•	“Data Subject Rights” → GDPR
-
-3. Page-Level Evidence Tracking
-
-All extracted evidence includes:
-	•	Page number
-	•	Document source
-	•	Similarity score
-	•	Confidence score
-
-4. Comprehensive Framework Coverage
-
-VendorGuard currently maps controls to:
-	•	SOC 2 (Security, Availability, Confidentiality)
-	•	ISO 27001:2022 Annex A
-	•	NIST 800-53
+Supported Frameworks
+	•	SOC 2
+	•	ISO 27001
 	•	GDPR
-	•	CCPA
-
-5. RAG Architecture (Semantic Search + LLM)
-	•	Qdrant vector store for chunk embeddings
-	•	Filtering by vendor, document type, similarity threshold
-	•	Reranking evidence
-	•	LLM evaluates coverage: Covered, Partial, Missing
-	•	Includes explanation, reasoning, and evidence citations
-
-6. Confidence-Weighted Risk Scoring
-
-Every classification includes:
-	•	Coverage level
-	•	Confidence score
-	•	Evidence similarity
-
-Final risk score formula:
-risk = (1 - weighted_security_percentage) × 100
-
-
-Each analysis stores:
-	•	vendor_id
-	•	document_name
-	•	document_type
-	•	page count
-	•	timestamp of analysis
+	•	NIST (partial)
 
 Architecture Overview
+	Frontend (Next.js)
+    	    ↓
+	FastAPI Backend
+    	    ↓
+	Text Extraction & Chunking
+    	    ↓
+	Embedding Generation
+    	    ↓
+	Qdrant Vector Database
+    	    ↓
+	Semantic Search (RAG)
+    	    ↓
+	LLM-based Control Analysis
+    	    ↓
+	Risk Scoring & Report Generation
 
-Frontend (Next.js)
-     ↓ Upload PDFs
-Backend (FastAPI)
-     ↓
-PDF Parser → Chunker → Embeddings → Qdrant DB
-     ↓
-Semantic Search → Evidence Reranking → LLM Classification
-     ↓
-Risk Score Calculation → Final Report (JSON)
+Project Structure
 
-Installation & Setup
+VendorGuard/
+├── frontend/
+│   ├── app/ or pages/
+│   ├── components/
+│   ├── styles/
+│   ├── public/
+│   └── package.json
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── models/
+│   │   └── core/
+│   ├── main.py
+│   └── requirements.txt
+│
+├── docker/
+│   ├── backend.Dockerfile
+│   └── docker-compose.yml
+│
+└── README.md
 
-1. Clone the repo
+Frontend Functionality
+	•	Multi-document upload per vendor
+	•	Step-based analysis progress indicator
+	•	Real-time analysis status updates
+	•	Risk score visualization
+	•	Control-level compliance results
+	•	Document metadata tracking
+	•	Structured report view
 
-git clone https://github.com/YOUR_USERNAME/VendorGuard.git
-cd VendorGuard
+Backend Functionality
+	•	PDF ingestion and validation
+	•	Text extraction and chunking
+	•	Embedding generation
+	•	Vector storage and retrieval
+	•	Control evaluation using LLMs
+	•	Risk score calculation
+	•	Structured JSON report generation
 
-2. Environment Variables
+Environment Configuration
 
-GOOGLE_API_KEY=your_key_here
+UPLOAD_DIR=/tmp/vendorguard/uploads
 QDRANT_URL=http://localhost:6333
-QDRANT_API_KEY=none_or_key
+QDRANT_API_KEY=
+EMBEDDING_PROVIDER=gemini
+LLM_PROVIDER=gemini
+GEMINI_EMBEDDING_MODEL=gemini-embedding-001
+GEMINI_LLM_MODEL=gemini-2.5-flash
+EMBEDDING_DIM=768
+ALLOWED_ORIGINS=http://localhost:3000
 
-3. Run Docker Services
+Running the Project Locally
 
-docker-compose up --build
+1. Start Qdrant
 
+docker run -d \
+  -p 6333:6333 \
+  -v qdrant_storage:/qdrant/storage \
+  qdrant/qdrant:latest
 
-Services started:
+2. Start the Backend
 
-	•	FastAPI on localhost:8000
-	•	Qdrant on localhost:6333
-	•	Frontend on localhost:3000
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
 
-Planned Improvements
+Backend will run on:
 
-Short Term
+http://localhost:8000
 
-	•	Local embeddings to reduce API cost
-	•	Reranking using BM25
-	•	Enhanced chunk overlap
-	•	Caching layer for embeddings
+3. Start the Frontend
 
-Long Term
+cd frontend
+npm install
+npm run dev
 
-	•	Human-in-the-loop correction
-	•	Remediation recommendations
-	•	PDF highlighting (visual evidence)
-	•	SOC2, ISO, NIST control customization
-	•	Cross-vendor comparison dashboard
+Frontend will run on:
 
-Contributing
+http://localhost:3000
 
-Pull requests welcome!
+API Flow
+	1.	Upload documents for a vendor
+	2.	Trigger analysis request
+	3.	Backend processes documents and stores embeddings
+	4.	Relevant chunks are retrieved per control
+	5.	LLM evaluates compliance and risk
+	6.	Report is returned to the frontend
 
-Please run formatting and linting before submitting:
+Limitations
+	•	No authentication or authorization
+	•	Single analysis session at a time
+	•	Limited retry and rate-limit handling
+	•	No persistent job queue
+	•	No user or vendor management
 
-black .
-flake8 .
+Future Improvements
+	•	Authentication and role-based access
+	•	Background job processing
+	•	Analysis history and dashboards
+	•	Framework-specific scoring models
+	•	Improved evidence traceability
+	•	Model-agnostic provider switching
+	•	Performance optimizations for large documents
 
+Intended Use
 
-Backend configuration
----------------------
-- `QDRANT_URL` (default: http://localhost:6333)
-- `QDRANT_API_KEY` (default: empty)
-- `EMBEDDING_PROVIDER` (fixed to `gemini`)
-- `EMBEDDING_DIM` (must match your embedding model; defaults auto-set to 768 for Gemini gemini-embedding-001)
-- `GOOGLE_API_KEY` (required)
-- `GEMINI_EMBEDDING_MODEL` (default: gemini-embedding-001)
-- `GEMINI_LLM_MODEL` (default: gemini-2.5-flash)
-- `UPLOAD_DIR` (default: /tmp/vendorguard/uploads in local dev; /data/uploads in docker-compose)
-- `ALLOWED_ORIGINS` (comma-separated CORS origins; default allows localhost:3000 and 127.0.0.1:3000)
-- `HISTORY_DIR` (defaults to UPLOAD_DIR/history; persisted in docker via history volume)
-
-Frontend configuration
-----------------------
-- `NEXT_PUBLIC_API_URL` (default: http://localhost:8000)
-
-Qdrant collection dimension
----------------------------
-Set `EMBEDDING_DIM` to match your embedding model. If you change it, recreate the Qdrant collection so stored vectors match the new size, for example:
-```
-docker compose down -v
-docker compose up --build
-```
+VendorGuard is intended for:
+	•	Vendor risk assessments
+	•	Security compliance reviews
+	•	Demonstrating RAG-based document analysis systems
+	•	Academic projects and technical portfolios
 
