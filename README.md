@@ -181,9 +181,8 @@ See the LICENSE file for details.
 
 ## Author
 
-Created by  
-Kartikeya Sharma  
-GitHub: https://github.com/kartikeyaswarup-m1
+Created by 
+[kartikeyaswarup-m1](https://github.com/kartikeyaswarup-m1)
 
 ## Acknowledgments
 
