@@ -1,155 +1,191 @@
-VendorGuard — AI-Powered Vendor Security Compliance Analyzer
+# VendorGuard
 
-VendorGuard is an end-to-end system for analyzing vendor security documents using RAG (Retrieval-Augmented Generation), vector search, and LLM-based classification.
-It ingests multiple document types (Contracts, SLAs, SOC2, ISO27001, GDPR policies), extracts evidence, maps them to security frameworks, and generates detailed compliance and risk reports.
+Analyze vendor security, legal, and compliance documents using a Retrieval-Augmented Generation (RAG) based risk assessment system.
 
-Key Features
+## Features
 
-1. Multi-Document Support
+- Multi-Document Analysis – Upload and analyze multiple vendor PDFs together.
+- Compliance Evaluation – Assess documents against predefined security controls.
+- RAG Architecture – Evidence-backed analysis using embeddings and semantic search.
+- Vector Database – Qdrant-based storage and retrieval of document chunks.
+- Risk Scoring – Quantitative risk scores derived from control coverage.
+- Framework Support – SOC 2, ISO 27001, GDPR, and partial NIST coverage.
+- Modern Web UI – Clean Next.js interface with step-based progress tracking.
+- Structured Reports – Control-level findings with metadata and evidence.
 
-Analyze multiple documents per vendor, including:
-	•	Contracts / MSAs
-	•	SLAs
-	•	SOC2 reports
-	•	ISO 27001 reports
-	•	Privacy policies (GDPR/CCPA)
-Each document is processed, chunked, embedded, and linked to a single vendor profile.
+## Architecture
 
-2. Automatic Document Classification
+```
+Vendor Documents (PDF)
+        ↓
+PDF Text Extraction
+        ↓
+Text Chunking
+        ↓
+Embedding Generation
+        ↓
+Qdrant Vector Store
+        ↓
+Semantic Retrieval (RAG)
+        ↓
+LLM-based Control Evaluation
+        ↓
+Risk Scoring & Compliance Report
+        ↓
+Web UI Visualization
+```
 
-VendorGuard automatically predicts the type of each uploaded document using semantic cues:
-	•	“Service Agreement” → Contract
-	•	“Annex A” → ISO 27001
-	•	“SOC2 Type II Audit” → SOC2
-	•	“Data Subject Rights” → GDPR
+## Prerequisites
 
-3. Page-Level Evidence Tracking
+1. Python 3.10+
+2. Node.js 18+
+3. Docker
+4. Qdrant (via Docker)
+5. Embedding / LLM Provider (Google Gemini by default)
 
-All extracted evidence includes:
-	•	Page number
-	•	Document source
-	•	Similarity score
-	•	Confidence score
+## Installation
 
-4. Comprehensive Framework Coverage
-
-VendorGuard currently maps controls to:
-	•	SOC 2 (Security, Availability, Confidentiality)
-	•	ISO 27001:2022 Annex A
-	•	NIST 800-53
-	•	GDPR
-	•	CCPA
-
-5. RAG Architecture (Semantic Search + LLM)
-	•	Qdrant vector store for chunk embeddings
-	•	Filtering by vendor, document type, similarity threshold
-	•	Reranking evidence
-	•	LLM evaluates coverage: Covered, Partial, Missing
-	•	Includes explanation, reasoning, and evidence citations
-
-6. Confidence-Weighted Risk Scoring
-
-Every classification includes:
-	•	Coverage level
-	•	Confidence score
-	•	Evidence similarity
-
-Final risk score formula:
-risk = (1 - weighted_security_percentage) × 100
-
-
-Each analysis stores:
-	•	vendor_id
-	•	document_name
-	•	document_type
-	•	page count
-	•	timestamp of analysis
-
-Architecture Overview
-
-Frontend (Next.js)
-     ↓ Upload PDFs
-Backend (FastAPI)
-     ↓
-PDF Parser → Chunker → Embeddings → Qdrant DB
-     ↓
-Semantic Search → Evidence Reranking → LLM Classification
-     ↓
-Risk Score Calculation → Final Report (JSON)
-
-Installation & Setup
-
-1. Clone the repo
-
-git clone https://github.com/YOUR_USERNAME/VendorGuard.git
+### 1. Clone the Repository
+```
+git clone https://github.com/your-username/VendorGuard.git
 cd VendorGuard
+```
+### 2. Start Qdrant
+```
+docker run -d \
+  -p 6333:6333 \
+  -v qdrant_storage:/qdrant/storage \
+  qdrant/qdrant:latest
+```
+### 3. Backend Setup (FastAPI)
 
-2. Environment Variables
-
-GOOGLE_API_KEY=your_key_here
+```
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+Create a .env file:
+```
+UPLOAD_DIR=/tmp/vendorguard/uploads
 QDRANT_URL=http://localhost:6333
-QDRANT_API_KEY=none_or_key
-
-3. Run Docker Services
-
-docker-compose up --build
-
-
-Services started:
-
-	•	FastAPI on localhost:8000
-	•	Qdrant on localhost:6333
-	•	Frontend on localhost:3000
-
-Planned Improvements
-
-Short Term
-
-	•	Local embeddings to reduce API cost
-	•	Reranking using BM25
-	•	Enhanced chunk overlap
-	•	Caching layer for embeddings
-
-Long Term
-
-	•	Human-in-the-loop correction
-	•	Remediation recommendations
-	•	PDF highlighting (visual evidence)
-	•	SOC2, ISO, NIST control customization
-	•	Cross-vendor comparison dashboard
-
-Contributing
-
-Pull requests welcome!
-
-Please run formatting and linting before submitting:
-
-black .
-flake8 .
-
-
-Backend configuration
----------------------
-- `QDRANT_URL` (default: http://localhost:6333)
-- `QDRANT_API_KEY` (default: empty)
-- `EMBEDDING_PROVIDER` (fixed to `gemini`)
-- `EMBEDDING_DIM` (must match your embedding model; defaults auto-set to 768 for Gemini gemini-embedding-001)
-- `GOOGLE_API_KEY` (required)
-- `GEMINI_EMBEDDING_MODEL` (default: gemini-embedding-001)
-- `GEMINI_LLM_MODEL` (default: gemini-2.5-flash)
-- `UPLOAD_DIR` (default: /tmp/vendorguard/uploads in local dev; /data/uploads in docker-compose)
-- `ALLOWED_ORIGINS` (comma-separated CORS origins; default allows localhost:3000 and 127.0.0.1:3000)
-- `HISTORY_DIR` (defaults to UPLOAD_DIR/history; persisted in docker via history volume)
-
-Frontend configuration
-----------------------
-- `NEXT_PUBLIC_API_URL` (default: http://localhost:8000)
-
-Qdrant collection dimension
----------------------------
-Set `EMBEDDING_DIM` to match your embedding model. If you change it, recreate the Qdrant collection so stored vectors match the new size, for example:
+QDRANT_API_KEY=
+EMBEDDING_PROVIDER=gemini
+LLM_PROVIDER=gemini
+GEMINI_EMBEDDING_MODEL=gemini-embedding-001
+GEMINI_LLM_MODEL=gemini-2.5-flash
+EMBEDDING_DIM=768
+ALLOWED_ORIGINS=http://localhost:3000
 ```
-docker compose down -v
-docker compose up --build
+Start the backend:
+```
+uvicorn main:app --reload
+```
+Backend runs on http://localhost:8000
+
+
+### 4. Frontend Setup (Next.js)
+
+```
+cd ../frontend
+npm install
 ```
 
+Create .env.local:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+Start the frontend:
+
+```
+npm run dev
+```
+```
+Frontend runs on http://localhost:3000
+```
+
+## Usage
+
+### Quick Start
+
+1. Open the web UI in your browser
+2. Upload one or more vendor PDF documents
+3. Trigger analysis
+4. Monitor progress using the step indicator
+5. Review risk score and compliance findings
+
+## API Flow
+
+1. Upload documents for a vendor
+2. Trigger analysis request
+3. Backend parses and chunks documents
+4. Embeddings are generated and stored in Qdrant
+5. Relevant chunks are retrieved per control
+6. LLM evaluates compliance and risk
+7. Structured report is returned to the frontend
+
+## Project Structure
+
+```
+VendorGuard/
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── models/
+│   │   └── core/
+│   ├── main.py
+│   └── requirements.txt
+├── frontend/
+│   ├── app/ or pages/
+│   ├── components/
+│   ├── styles/
+│   └── public/
+├── docker/
+│   └── docker-compose.yml
+└── README.md
+```
+
+## Configuration
+
+Backend configuration is controlled via .env:
+
+```
+EMBEDDING_DIM=768
+ALLOWED_ORIGINS=http://localhost:3000
+GEMINI_LLM_MODEL=gemini-2.5-flash
+```
+## Limitations
+
+- No authentication or authorization
+- Single analysis session at a time
+- Limited retry and rate-limit handling
+- No persistent background job queue
+- No user or vendor management
+
+## Future Enhancements
+
+- Authentication and role-based access
+- Background job processing
+- Analysis history and dashboards
+- Framework-specific scoring models
+- Improved evidence traceability
+- Model-agnostic provider switching
+- Dockerized production deployment
+
+## License
+
+See the LICENSE file for details.
+
+## Author
+
+Created by 
+[kartikeyaswarup-m1](https://github.com/kartikeyaswarup-m1)
+
+## Acknowledgments
+
+- FastAPI, Next.js, Qdrant, and Tailwind CSS communities
+- Public documentation for SOC 2, ISO 27001, GDPR, and NIST
+- Research and open-source work on Retrieval-Augmented Generation
