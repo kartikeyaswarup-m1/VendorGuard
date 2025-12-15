@@ -64,9 +64,9 @@ cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-
+```
 Create a .env file:
-
+```
 UPLOAD_DIR=/tmp/vendorguard/uploads
 QDRANT_URL=http://localhost:6333
 QDRANT_API_KEY=
@@ -76,13 +76,13 @@ GEMINI_EMBEDDING_MODEL=gemini-embedding-001
 GEMINI_LLM_MODEL=gemini-2.5-flash
 EMBEDDING_DIM=768
 ALLOWED_ORIGINS=http://localhost:3000
-
-Start the backend:
-
-uvicorn main:app --reload
-
-Backend runs on http://localhost:8000
 ```
+Start the backend:
+```
+uvicorn main:app --reload
+```
+Backend runs on http://localhost:8000
+
 
 ### 4. Frontend Setup (Next.js)
 
