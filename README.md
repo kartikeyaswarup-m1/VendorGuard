@@ -15,7 +15,7 @@ Analyze vendor security, legal, and compliance documents using a Retrieval-Augme
 
 ## Architecture
 
-'''
+```
 Vendor Documents (PDF)
         ↓
 PDF Text Extraction
@@ -33,7 +33,7 @@ LLM-based Control Evaluation
 Risk Scoring & Compliance Report
         ↓
 Web UI Visualization
-'''
+```
 
 ## Prerequisites
 
@@ -46,20 +46,20 @@ Web UI Visualization
 ## Installation
 
 ### 1. Clone the Repository
-
+```
 git clone https://github.com/your-username/VendorGuard.git
 cd VendorGuard
-
+```
 ### 2. Start Qdrant
-
+```
 docker run -d \
   -p 6333:6333 \
   -v qdrant_storage:/qdrant/storage \
   qdrant/qdrant:latest
-
+```
 ### 3. Backend Setup (FastAPI)
 
-'''
+```
 cd backend
 python3 -m venv venv
 source venv/bin/activate
@@ -82,29 +82,29 @@ Start the backend:
 uvicorn main:app --reload
 
 Backend runs on http://localhost:8000
-'''
+```
 
 ### 4. Frontend Setup (Next.js)
 
-'''
+```
 cd ../frontend
 npm install
-'''
+```
 
 Create .env.local:
 
-'''
+```
 NEXT_PUBLIC_API_URL=http://localhost:8000
-'''
+```
 
 Start the frontend:
 
-'''
+```
 npm run dev
-'''
-'''
+```
+```
 Frontend runs on http://localhost:3000
-'''
+```
 
 ## Usage
 
@@ -128,7 +128,7 @@ Frontend runs on http://localhost:3000
 
 ## Project Structure
 
-'''
+```
 VendorGuard/
 ├── backend/
 │   ├── app/
@@ -146,18 +146,17 @@ VendorGuard/
 ├── docker/
 │   └── docker-compose.yml
 └── README.md
-'''
+```
 
 ## Configuration
 
 Backend configuration is controlled via .env:
 
-'''
+```
 EMBEDDING_DIM=768
 ALLOWED_ORIGINS=http://localhost:3000
 GEMINI_LLM_MODEL=gemini-2.5-flash
-'''
-
+```
 ## Limitations
 
 - No authentication or authorization
