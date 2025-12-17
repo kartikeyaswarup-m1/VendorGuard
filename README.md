@@ -2,6 +2,8 @@
 
 Analyze vendor security, legal, and compliance documents using a Retrieval-Augmented Generation (RAG) based risk assessment system.
 
+<img width="1440" height="674" alt="Screenshot 2025-12-17 at 10 08 06 AM" src="https://github.com/user-attachments/assets/577ddf34-2de5-401b-9940-d9ab002a86db" />
+
 ## Features
 
 - Multi-Document Analysis – Upload and analyze multiple vendor PDFs together.
@@ -116,6 +118,17 @@ Frontend runs on http://localhost:3000
 3. Trigger analysis
 4. Monitor progress using the step indicator
 5. Review risk score and compliance findings
+
+
+## Upload
+<img width="691" height="650" alt="Screenshot 2025-12-17 at 10 14 38 AM" src="https://github.com/user-attachments/assets/4d4ae059-a978-437c-99a5-c70dba464db6" />
+
+## Analysis
+<img width="691" height="522" alt="Screenshot 2025-12-17 at 10 14 07 AM" src="https://github.com/user-attachments/assets/9299acd9-85c0-495e-8978-b4d7bb655de3" />
+
+## Risk score and compliance findings
+<img width="691" height="679" alt="Screenshot 2025-12-17 at 10 13 50 AM" src="https://github.com/user-attachments/assets/f22043d9-5990-4b86-9ab4-d3f6a1cf4f32" />
+
 
 ## API Flow
 
