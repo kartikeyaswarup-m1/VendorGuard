@@ -81,8 +81,9 @@ Start the backend:
 ```
 uvicorn main:app --reload
 ```
+```
 Backend runs on http://localhost:8000
-
+```
 
 ### 4. Frontend Setup (Next.js)
 
@@ -163,7 +164,6 @@ GEMINI_LLM_MODEL=gemini-2.5-flash
 - Single analysis session at a time
 - Limited retry and rate-limit handling
 - No persistent background job queue
-- No user or vendor management
 
 ## Future Enhancements
 
